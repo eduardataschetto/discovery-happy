@@ -7,14 +7,49 @@ main {
     flex: 1;
 }
 
-form {
-  width: 70rem;
-  margin: 6.4rem auto;
-  background: white;
-  border: 1px solid #d3e2e5;
-  border-radius: 2rem;
-  overflow: hidden;
-  padding: 8rem;
+.map-container {
+    margin: 0 0 4rem;
 }
 
+.map-container .leaflet-container {
+    border-radius: 20px 20px 0 0;
+}
 
+.map-container footer {
+    background: #F5F8FA;
+    border-radius: 0 0 20px 20px;
+}
+
+.input-block label span {
+    font-size: 1.4rem;
+    color: #8fa7b3;
+    margin-left: 2.4rem;
+    line-height: 1.5;
+}
+
+.input-block input,
+.input-block textarea {
+    width: 100%;
+    background: #f5f8fa;
+    border: 1px solid #d3e2e5;
+    border-radius: 2rem;
+    color: #5c8a99;
+    outline: none;
+}
+
+.input-block input:focus,
+.input-block textarea:focus {
+    border: 1px solid #5c8a99;
+}
+
+.input-block input {
+    height: 6.4rem;
+    padding: 0 1.6rem;
+}
+
+.input-block textarea {
+    height: clamp(12rem, 16rem, 24rem);
+    resize: vertical;
+    padding: 1.6rem;
+    line-height: 2.8rem;
+}
