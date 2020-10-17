@@ -1,22 +1,37 @@
-const map = L.map('mapid').setView([-26.9142542,-49.0752233], 15)
+  
+const map = L.map("mapid").setView([-26.92362,-48.9739327], 15);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
 const icon = L.icon({
-    iconUrl: "./public/images/map-marker.svg",
-    iconSize: [58, 68],
-    iconAnchor: [29, 68],
-    popupAnchor: [170, 2]
-})
+  iconUrl: "/images/map-marker.svg",
+  iconSize: [58, 68],
+  iconAnchor: [29, 68],
+  popupAnchor: [170, 2],
+});
 
-const popup = L.popup({
+function addMarker({ id, name, lat, lng } = orphanage) {
+  const popup = L.popup({
     closeButton: false,
-    className: 'map-popup',
-    minWidht: 240,
-    minHeight: 240
-}).setContent('Lar das meninas <a href="orphanage.html?id=1" class="choose-orphanage">  <img src="./public/images/arrow-white.svg"></a>')
+    className: "map-popup",
+    minWidth: 240,
+    minHeight: 240,
+  }).setContent(
+    `${name} <a href="/orphanage?id=${id}"> <img src="/images/arrow-white.svg"> </a>`
+  );
 
+  L.marker([lat, lng], { icon }).addTo(map).bindPopup(popup);
+}
 
+const orphanagesSpan = document.querySelectorAll(".orphanages span");
 
-L.marker([-26.9142542,-49.0752233], { icon }).addTo(map)
-    .bindPopup(popup)
+orphanagesSpan.forEach((span) => {
+  const orphanage = {
+    id: span.dataset.id,
+    name: span.dataset.name,
+    lat: span.dataset.lat,
+    lng: span.dataset.lng,
+  };
+
+  addMarker(orphanage);
+});
