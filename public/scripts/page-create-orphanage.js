@@ -1,80 +1,73 @@
-const map = L.map('mapid').setView([-26.9142542,-49.0752233], 15)
+//create map
+const map = L.map("mapid").setView([-26.9142542,-49.0752233], 15);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
 const icon = L.icon({
-    iconUrl: "./public/images/map-marker.svg",
-    iconSize: [58, 68],
-    iconAnchor: [29, 68]
-})
+  iconUrl: "/images/map-marker.svg",
+  iconSize: [58, 68],
+  iconAnchor: [29, 68],
+});
 
+let marker;
 
-let marker
+map.on("click", (event) => {
+  const lat = event.latlng.lat;
+  const lng = event.latlng.lng;
 
-// create and add markers
-//() => {} isso é uma função
-map.on('click', (event) => {
-  const lat = event.latlng.lat
-  const lng = event.latlng.lng
+  document.querySelector("[name=lat]").value = lat;
+  document.querySelector("[name=lng]").value = lng;
 
-  document.querySelector('[name=lat]').value = lat
-  document.querySelector('[name=lng]').value = lng
+  marker && map.removeLayer(marker);
 
-  //remove ico
-  marker && map.removeLayer(marker)
+  marker = L.marker([lat, lng], { icon }).addTo(map);
+});
 
-  //add icon layer
-  marker = L.marker([lat, lng], {icon}).addTo(map)
-})
+function addPhotoField() {
+  const container = document.querySelector("#images");
 
-//adicionar campo de fotos
+  const fieldsContainer = document.querySelectorAll(".new-upload");
 
-function addPhotoField(){
-  //pegar o container de fotos #images
-  const container = document.querySelector('#images')
-  //depois de pegar, temos que duplicar o .new-upload
-  const fieldsContainer = document.querySelectorAll('.new-upload')
+  const newFieldContainer = fieldsContainer[
+    fieldsContainer.length - 1
+  ].cloneNode(true);
 
-  // fazer o clone da ultima imagem selecionada
-  const newFieldContainer = fieldsContainer[fieldsContainer.length - 1].cloneNode(true)
-
-  //verificar se o campo esta vazio, se sim, não adicionar ao container
-  const input = newFieldContainer.children[0]
+  const input = newFieldContainer.children[0];
 
   if (input.value == "") {
-    return
-  }
-  //limpando o campo antes de fazer o append
-  newFieldContainer.children[0].value = ''
-  //adicionar o colne ao container #images
-  container.appendChild(newFieldContainer)
-}
-
-function deleteField (event) {
-  const span = event.currentTarget
-  const fieldsContainer = document.querySelectorAll('.new-upload')
-  if (fieldsContainer.length < 2) {
-    span.parentNode.children[0].value = ''
-    return
+    return;
   }
 
-  span.parentNode.remove()
+  input.value = "";
+
+  container.appendChild(newFieldContainer);
 }
 
-//troca do sim e não
+function deleteField(event) {
+  const span = event.currentTarget;
 
-function toggleSelect (event) {
+  const fieldsContainer = document.querySelectorAll(".new-upload");
 
-  //retirar a classe active dos botoes
-  document.querySelectorAll('.button-select button')
-  .forEach((button) => button.classList.remove('active'))
+  if (fieldsContainer.length <= 1) {
+    span.parentNode.children[0].value = "";
+    return;
+  }
 
-  //colocar a .active no botao clicado
-  const button = event.currentTarget
-  button.classList.add('active')
+  span.parentNode.remove();
+}
 
-  //atualizar o input hidden com o valor selecionado
-  const input = document.querySelector('[name="open_on_weekends"]')
+function toggleSelect(event) {
+  document
+    .querySelectorAll(".button-select button")
+    .forEach((button) => button.classList.remove("active"));
 
-  input.value = button.dataset.value
+  const button = event.currentTarget;
+  button.classList.add("active");
+
+  const input = document.querySelector('[name="open_on_weekends"]');
+  input.value = button.dataset.value;
+}
+
+function validade(event) {
+  // event.preventDefault()
 }
